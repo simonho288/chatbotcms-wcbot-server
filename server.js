@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({
 }), "development" !== process.env.NODE_ENV && process.on("unhandledRejection", (e, t) => {
     logger.error("Unhandled Promise Rejection at:", t, "reason:", e);
 }), app.get("/", (e, t) => {
-    t.status(500).end();
+    t.status(200).end();
 }), app.get("/ping", (e, t) => {
     "chatbotcms-wcbot" === e.query.q ? (t.header("Access-Control-Allow-Origin", "*"), 
     t.header("Access-Control-Allow-Headers", "X-Requested-With"), t.status(200).send("pong")) : t.status(500).end();
