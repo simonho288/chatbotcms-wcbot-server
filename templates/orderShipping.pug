@@ -1,0 +1,114 @@
+//- This PUG template generates checkout web page.
+//- See makeWebPage.js checkout() for the logic.
+doctype html
+html(lang="en")
+	head
+		include head.pug
+	body
+		//- Don't remove below line
+		script.
+			//- Pass the cart items from server template to frontend
+			window._userId="#{userId}"
+			window._recipientId="#{recipientId}"
+			window._orderId="#{orderId}"
+
+		.ui.main.container
+			.ui.clearing.basic.segment
+				h3.ui.left.floated.header Order Shipping Method
+				h3.ui.right.floated.header 
+
+		.ui.main.container
+			.ui.four.top.attached.ordered.steps
+				.completed.step
+					.content
+						.title Info Input
+						.description Order info
+				.active.step
+					i.truck.icon
+					.content
+						.title Shipping
+						.description Shipping option
+				.step
+					i.list.layout.icon
+					.content
+						.title Review
+						.description Confirm order
+				.step
+					i.payment.icon
+					.content
+						.title Payment
+						.description Select payment
+
+		.ui.main.container
+			.ui.segment.loading_wrapper(style="min-height: 600px;")
+				.ui.active.inverted.dimmer
+					.ui.text.loader Loading
+				p 
+			.loaded_wrapper(style="display: none")
+				.ui.main.container
+					h4.ui.horizontal.divider.header
+						i.shipping.icon
+						.
+							Shipping Info
+					table.ui.definition.table
+						tbody
+							tr
+								td.three.wide.column First name
+								td#first_name
+							tr
+								td Last name
+								td#last_name
+							tr
+								td Address
+								td
+									span#address1
+									br
+									span#address2
+							tr
+								td City
+								td#city
+							tr
+								td State
+								td#state
+							tr
+								td Postal Code
+								td#postcode
+							tr
+								td Country
+								td#country
+
+				form.ui.big.form#shipping_fee_form(METHOD="POST")
+					.ui.main.container
+						h4.ui.horizontal.divider.header
+							i.ship.icon
+							.
+								Shipping Fees
+					.ui.main.container
+						.inline.fields
+							.four.wide.field
+								label Order Total
+							.eight.wide.field
+								label.huge-text#order_totalamt
+						.inline.fields
+							.four.wide.field
+								label Order Tax
+							.eight.wide.field
+								label#order_totaltax
+						.inline.fields
+							.four.wide.field
+								label Ship Method
+							.twelve.wide.field
+								select.ui.dropdown(name="ship_method")
+									option(value="") Please select
+
+					.ui.main.container
+						button.ui.primary.button#btn_proceed Proceed To Order Review
+						button.ui.button#btn_back Back To Order Info Input
+
+				.footer
+
+	script(src="js/lib/lexer.js")
+	script(src="js/lib/parseShipping.js")
+	script(src="js/util.js")
+	script(src="js/orderShipping.js")
+

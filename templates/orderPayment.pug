@@ -1,0 +1,77 @@
+//- This PUG template generates checkout web page.
+//- See makeWebPage.js checkout() for the logic.
+doctype html
+html(lang="en")
+	head
+		include head.pug
+	body
+		//- Don't remove below line
+		script.
+			//- Pass the cart items from server template to frontend
+			//- window.cartItemsStr="#{escape(JSON.stringify(items))}"
+			//- window.paypalAccount="#{paypalAccount}"
+			//- window.paypalMode="#{paypalMode}"
+			window._userId="#{userId}"
+			window._recipientId="#{recipientId}"
+			window._orderId="#{orderId}"
+			window._stripePublishKey="#{stripePublishKey}"
+			window._braintreeClientToken="#{braintreeClientToken}"
+			//- window.amount="#{amount}"
+
+		.ui.main.container
+			h3 Payment
+
+		.ui.main.container
+			.ui.four.top.attached.ordered.steps
+				.completed.step
+					.content
+						.title Info Input
+						.description Order info
+				.completed.step
+					.content
+						.title Shipping
+						.description Shipping option
+				.completed.step
+					.content
+						.title Review
+						.description Confirm order
+				.active.step
+					i.payment.icon
+					.content
+						.title Payment
+						.description Select payment
+
+		.ui.main.container
+			.ui.segment.loading_wrapper(style="min-height: 500px;")
+				.ui.active.inverted.dimmer
+					.ui.text.loader Loading
+				p 
+			.ui.segment.loaded_wrapper(style="display: none")
+				h2 Total Amount: <span id="total_amount"></span>
+
+				.ui.blue.basic.ribbon.label Payment Method
+				p 
+				p Please select payment method
+				.ui.styled.accordion#payment_methods
+
+		.ui.main.container
+			button.ui.button#btn_back Cancel This Order
+
+		.footer
+
+		//- Remove order warning modal dialog
+		.ui.modal#dlg_discardwarn
+			i.close.icon
+			.header <i class="warning sign icon"></i>Warning
+			.image.content
+				.description Are you sure to cancel this order?
+			.actions
+				.ui.negative.basic.button#btn_ok Yes
+				.ui.button#btn_cancel No
+
+		div#hot_form_div(style="display: none")
+
+	script(src="https://checkout.stripe.com/checkout.js")
+	script(src="https://js.braintreegateway.com/web/dropin/1.8.0/js/dropin.min.js")
+	script(src="js/util.js")
+	script(src="js/orderPayment.js")

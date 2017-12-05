@@ -1,0 +1,151 @@
+//- This PUG template generates checkout web page.
+//- See makeWebPage.js checkout() for the logic.
+doctype html
+html(lang="en")
+	head
+		include head.pug
+	body
+		//- Don't remove below line
+		script.
+			//- Pass the cart items from server template to frontend
+			window._userId="#{userId}"
+			window._recipientId="#{recipientId}"
+			window._orderId="#{orderId}"
+
+		.ui.main.container
+			.ui.clearing.basic.segment
+				h3.ui.left.floated.header Order Info Input
+				h3.ui.right.floated.header(id="total_div" style="display:none") Total: <span id="order_total"></span>
+
+		.ui.container
+			.ui.four.top.attached.steps
+				.active.step
+					i.info.icon
+					.content
+						.title Info Input
+						.description Order info
+				.step
+					i.truck.icon
+					.content
+						.title Shipping
+						.description Shipping option
+				.step
+					i.list.layout.icon
+					.content
+						.title Review
+						.description Confirm order
+				.step
+					i.payment.icon
+					.content
+						.title Payment
+						.description Select payment
+
+		.ui.main.container
+			.ui.segment.loading_wrapper(style="min-height: 600px;")
+				.ui.active.inverted.dimmer
+					.ui.text.loader Loading
+				p 
+			.loaded_wrapper(style="display: none")
+				.ui.main.container
+					form.ui.form#billing_form(METHOD="POST")
+						.ui.segments
+							.ui.segment
+								.ui.blue.basic.ribbon.label Billing Info
+								p 
+								.two.fields
+									.field.required
+										label First name
+										input(type="text" name="first_name" placeholder="Input your first name" maxlength="50")
+									.field.required
+										label Last name
+										input(type="text" name="last_name" placeholder="Input your last name" maxlength="50")
+								.two.fields
+									.field.required
+										label Email
+										input(type="email" name="email" placeholder="Your email" maxlength="100")
+									.field.required
+										label Phone
+										input(type="text" name="phone" placeholder="Phone number" maxlength="30")
+								.field.required
+									label Billing Address 1
+									input(type="text" name="address1" placeholder="Room, floor, building, Street" maxlength="200")
+								.field
+									label Billing Address 2
+									input(type="text" name="address2" placeholder="District" maxlength="200")
+								.two.fields
+									.field.required
+										label Country
+										select.ui.search.dropdown(name="country")
+											option(value="") Type to search
+									.field
+										label Postal Code
+										input(type="text" name="postal" placeholder="Zip code (U.S.)")
+								.two.fields
+									.field
+										label City
+										input(type="text" name="city" placeholder="optional")
+									.field
+										label State
+										select.ui.search.dropdown(name="state")
+										//- input(type="text" name="state" placeholder="Such as CA, DC")
+
+				.ui.main.container
+					//- form.ui.form#shipping_form(action="/checkout_submit" METHOD="POST")
+					.ui.segments
+						.ui.segment
+							.ui.blue.basic.ribbon.label Shipping Info
+							p 
+							.field
+								.ui.checkbox
+									input(type="checkbox" tabindex="0" class="hidden" name="same_as_billing")
+									label Same as billing
+							p 
+							form.ui.form#shipping_form(METHOD="POST")
+								.two.fields
+									.field.required
+										label First name
+										input(type="text" name="first_name" placeholder="Input your first name" maxlength="50")
+									.field.required
+										label Last name
+										input(type="text" name="last_name" placeholder="Input your last name" maxlength="50")
+								.field.required
+									label Billing Address 1
+									input(type="text" name="address1" placeholder="Room, floor, building, Street" maxlength="200")
+								.field
+									label Billing Address 2
+									input(type="text" name="address2" placeholder="District" maxlength="200")
+								.two.fields
+									.field.required
+										label Country
+										select.ui.search.dropdown(name="country")
+											option(value="") Type to search
+									.field
+										label Postal Code
+										input(type="text" name="postal" placeholder="Zip code (U.S.)")
+								.two.fields
+									.field
+										label City
+										input(type="text" name="city" placeholder="optional")
+									.field
+										label State
+										select.ui.search.dropdown(name="state")
+										//- input(type="text" name="state" placeholder="Such as CA, DC")
+
+				.ui.main.container
+					button.ui.primary.button#btn_proceed Proceed To Ship Method
+					button.ui.button#btn_back Back To Shopping Cart
+
+		.footer
+		
+		.ui.modal#dlg_discardwarn
+			i.close.icon
+			.header <i class="warning sign icon"></i>Warning
+			.image.content
+				.description Are you sure discard all inputs?
+			.actions
+				.ui.negative.basic.button#btn_ok OK
+				.ui.button#btn_cancel Cancel
+
+	script(src="js/util.js")
+	script(src="js/orderInfoInput.js")
+

@@ -1,0 +1,1 @@
+!function(e,n,t){var s,c=e.getElementsByTagName("script")[0];e.getElementById(t)||((s=e.createElement("script")).id=t,s.src="//connect.facebook.com/en_US/messenger.Extensions.js",c.parentNode.insertBefore(s,c))}(document,0,"Messenger"),window.extAsyncInit=function(){MessengerExtensions.getUserID(function(e){e.psid},function(e,n){})};
