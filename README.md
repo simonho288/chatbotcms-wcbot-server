@@ -2,13 +2,13 @@
 
 ## 1. Overview
 
-This is the server App of WcBot. WcBot is a chatbot from ChatbotCMS. It is a WordPress plugin and it connects between WooCommerce site and Facebook Messenger.
+This is the server App of WcBot. WcBot is a chatbot from Chatbot CMS. It is a commerical WordPress plugin. It allows WooCommerce shop owners provide an A.I. chatbot in Facebook Messenger to answer questions from their customers. WcBot can display products info, selling products with online payment, and do simple customer service. For full features please go to [ChatbotCMS offical site](https://chatbotcms.com).
 
 Actually WcBot is hosting on cloud server permanently. The permanent WcBot URL is:
 
 https://wcbot.chatbotcms.com
 
-However, some customers want to host this App on their own server. That's the reason of this github repo.
+However, some customers want to host this App on their own server. That's the reason of this github repo exists.
 
 ## 2. What's The Server App Does
 
@@ -39,5 +39,11 @@ $ export MONGO_URL=mongodb://localhost:27017/chatbotcms
 $ export PORT=3000
 $ npm start
 ```
+
+## 5. Support
+
+If you're purchased customer of WcBot and need support. Please join this [Facebook Group](https://www.facebook.com/groups/chatbotcms.wcbot/?source_id=131279084162186) to post the question.
+
+## License
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
