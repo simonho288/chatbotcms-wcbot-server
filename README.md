@@ -39,3 +39,5 @@ $ export MONGO_URL=mongodb://localhost:27017/chatbotcms
 $ export PORT=3000
 $ npm start
 ```
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
