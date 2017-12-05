@@ -6,7 +6,7 @@ This is the server App of WcBot. WcBot is a chatbot from Chatbot CMS. It is a co
 
 Actually WcBot is hosting on cloud server permanently. The permanent WcBot URL is:
 
-https://wcbot.chatbotcms.com
+https://wcbot.chatbotcms.com (Don't click this directly. It's used to input to Messenger App webhook)
 
 However, some customers want to host this App on their own server. That's the reason of this github repo exists.
 

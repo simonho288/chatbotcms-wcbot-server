@@ -24,6 +24,8 @@ app.use(bodyParser.urlencoded({
     MISC.initServerProps(e), r();
 }), "development" !== process.env.NODE_ENV && process.on("unhandledRejection", (e, t) => {
     logger.error("Unhandled Promise Rejection at:", t, "reason:", e);
+}), app.get("/", (e, t) => {
+    t.status(500).end();
 }), app.get("/ping", (e, t) => {
     "chatbotcms-wcbot" === e.query.q ? (t.header("Access-Control-Allow-Origin", "*"), 
     t.header("Access-Control-Allow-Headers", "X-Requested-With"), t.status(200).send("pong")) : t.status(500).end();
@@ -50,7 +52,7 @@ app.use(bodyParser.urlencoded({
 }), app.get("/mwp", (e, t) => {
     let r = {
         queryStringParameters: e.query
-    }, n = e => {
+    }, a = e => {
         t.setHeader("Content-Type", "text/html"), t.end(e);
     };
     try {
@@ -58,56 +60,56 @@ app.use(bodyParser.urlencoded({
           case "shopCart":
             MWP.shoppingCart(r, null, (e, t) => {
                 if (e) throw e;
-                n(t.body);
+                a(t.body);
             });
             break;
 
           case "checkout":
             MWP.checkout(r, null, (e, t) => {
                 if (e) throw e;
-                n(t.body);
+                a(t.body);
             });
             break;
 
           case "orderReceived":
             MWP.orderReceived(r, null, (e, t) => {
                 if (e) throw e;
-                n(t.body);
+                a(t.body);
             });
             break;
 
           case "paymentFailure":
             MWP.paymentFailure(r, null, (e, t) => {
                 if (e) throw e;
-                n(t.body);
+                a(t.body);
             });
             break;
 
           case "orderInfoInput":
             MWP.orderInfoInput(r, null, (e, t) => {
                 if (e) throw e;
-                n(t.body);
+                a(t.body);
             });
             break;
 
           case "orderShipping":
             MWP.orderShipping(r, null, (e, t) => {
                 if (e) throw e;
-                n(t.body);
+                a(t.body);
             });
             break;
 
           case "orderReview":
             MWP.orderReview(r, null, (e, t) => {
                 if (e) throw e;
-                n(t.body);
+                a(t.body);
             });
             break;
 
           case "orderPayment":
             MWP.orderPayment(r, null, (e, t) => {
                 if (e) throw e;
-                n(t.body);
+                a(t.body);
             });
             break;
 
@@ -124,78 +126,78 @@ app.use(bodyParser.urlencoded({
         orderId: e.body.orderId,
         payment_method: e.body.payment_method,
         payment_method_title: e.body.payment_method_title
-    }, n = new CLIENT.Client();
-    n.loadClientRecordByRecipientId(r.recipientId).then(() => DDB.savePaymentTransaction(r)).then(r => {
-        if ("paypal" === e.body.payment_method) handlePaypalSubmit(n, r.paymentId, e, t); else if ("stripe" === e.body.payment_method) handleStripeSubmit(n, r.paymentId, e, t); else if ("braintree_credit_card" === e.body.payment_method) handleBraintreeSubmit(n, r.paymentId, e, t); else if ("bacs" === e.body.payment_method) handleBacsSubmit(n, r.paymentId, e, t); else if ("cheque" === e.body.payment_method) handleChequeSubmit(n, r.paymentId, e, t); else {
+    }, a = new CLIENT.Client();
+    a.loadClientRecordByRecipientId(r.recipientId).then(() => DDB.savePaymentTransaction(r)).then(r => {
+        if ("paypal" === e.body.payment_method) handlePaypalSubmit(a, r.paymentId, e, t); else if ("stripe" === e.body.payment_method) handleStripeSubmit(a, r.paymentId, e, t); else if ("braintree_credit_card" === e.body.payment_method) handleBraintreeSubmit(a, r.paymentId, e, t); else if ("bacs" === e.body.payment_method) handleBacsSubmit(a, r.paymentId, e, t); else if ("cheque" === e.body.payment_method) handleChequeSubmit(a, r.paymentId, e, t); else {
             if ("cod" !== e.body.payment_method) throw new Error(util.format("Unhandled payment payment_method: %s in %s-%d", e.body.payment_method, path.basename(__filename), __line));
-            handleCodSubmit(n, r.paymentId, e, t);
+            handleCodSubmit(a, r.paymentId, e, t);
         }
     }).catch(e => {
         logger.error(e.stack || e), t.status(404).send(e);
     });
 });
 
-function handlePaypalSubmit(e, t, r, n) {
-    n.setHeader("Content-Type", "application/json"), n.status(200).send({
+function handlePaypalSubmit(e, t, r, a) {
+    a.setHeader("Content-Type", "application/json"), a.status(200).send({
         paymentId: t
     });
 }
 
-function handleStripeSubmit(e, t, r, n) {
-    let a = r.body.stripe_token, s = (r.body.userId, r.body.recipientId, parseFloat(r.body.totalAmount)), o = new PAYMENT.Payment();
-    o.getPaymentGatewaysFromWc(e).then(() => o.createStripeCharge(a, s)).then(e => {
+function handleStripeSubmit(e, t, r, a) {
+    let n = r.body.stripe_token, s = (r.body.userId, r.body.recipientId, parseFloat(r.body.totalAmount)), o = new PAYMENT.Payment();
+    o.getPaymentGatewaysFromWc(e).then(() => o.createStripeCharge(n, s)).then(e => {
         DDB.updatePaymentTransaction(t, e, "charge_result").then(e => {
-            n.setHeader("Content-Type", "application/json"), n.status(200).send({
+            a.setHeader("Content-Type", "application/json"), a.status(200).send({
                 paymentId: e.paymentId
             });
         });
     }).catch(e => {
-        logger.error(e.stack || e), n.status(500).end();
+        logger.error(e.stack || e), a.status(500).end();
     });
 }
 
-function handleBraintreeSubmit(e, t, r, n) {
-    let a = r.body.totalAmount, s = r.body.braintree_nonce, o = (r.body.userId, r.body.recipientId, 
+function handleBraintreeSubmit(e, t, r, a) {
+    let n = r.body.totalAmount, s = r.body.braintree_nonce, o = (r.body.userId, r.body.recipientId, 
     new PAYMENT.Payment());
-    o.getPaymentGatewaysFromWc(e).then(() => o.createBraintreeSaleTransaction(a, s)).then(e => DDB.updatePaymentTransaction(t, e, "sale_txn")).then(e => {
-        n.setHeader("Content-Type", "application/json"), n.status(200).send({
+    o.getPaymentGatewaysFromWc(e).then(() => o.createBraintreeSaleTransaction(n, s)).then(e => DDB.updatePaymentTransaction(t, e, "sale_txn")).then(e => {
+        a.setHeader("Content-Type", "application/json"), a.status(200).send({
             paymentId: e.paymentId
         });
     }).catch(e => {
-        logger.error(e.stack || e), n.status(500).end();
+        logger.error(e.stack || e), a.status(500).end();
     });
 }
 
-function handleBacsSubmit(e, t, r, n) {
+function handleBacsSubmit(e, t, r, a) {
     r.body.totalAmount, r.body.userId, r.body.recipientId, new PAYMENT.Payment();
     DDB.updatePaymentTransaction(t, null, null).then(e => {
-        n.setHeader("Content-Type", "application/json"), n.status(200).send({
+        a.setHeader("Content-Type", "application/json"), a.status(200).send({
             paymentId: e.paymentId
         });
     }).catch(e => {
-        logger.error(e.stack || e), n.status(500).end();
+        logger.error(e.stack || e), a.status(500).end();
     });
 }
 
-function handleChequeSubmit(e, t, r, n) {
+function handleChequeSubmit(e, t, r, a) {
     r.body.totalAmount, r.body.userId, r.body.recipientId, new PAYMENT.Payment();
     DDB.updatePaymentTransaction(t, null, null).then(e => {
-        n.setHeader("Content-Type", "application/json"), n.status(200).send({
+        a.setHeader("Content-Type", "application/json"), a.status(200).send({
             paymentId: e.paymentId
         });
     }).catch(e => {
-        logger.error(e.stack || e), n.status(500).end();
+        logger.error(e.stack || e), a.status(500).end();
     });
 }
 
-function handleCodSubmit(e, t, r, n) {
+function handleCodSubmit(e, t, r, a) {
     r.body.totalAmount, r.body.userId, r.body.recipientId, new PAYMENT.Payment();
     DDB.updatePaymentTransaction(t, null, null).then(e => {
-        n.setHeader("Content-Type", "application/json"), n.status(200).send({
+        a.setHeader("Content-Type", "application/json"), a.status(200).send({
             paymentId: e.paymentId
         });
     }).catch(e => {
-        logger.error(e.stack || e), n.status(500).end();
+        logger.error(e.stack || e), a.status(500).end();
     });
 }
 
@@ -245,31 +247,31 @@ app.post("/paypal-notify", (e, t) => {
         logger.error(e.stack || e), t.status(500).send(e.body);
     });
 }), app.get("/authenticate_wc", (e, t) => {
-    let r = e.query, n = "https://" + e.get("host"), a = r.wp_host, s = {
+    let r = e.query, a = "https://" + e.get("host"), n = r.wp_host, s = {
         app_name: r.app_name,
         scope: "read_write",
         user_id: r._id,
         return_url: r.wp_return_url,
-        callback_url: n + "/authenticate_wc_callback"
-    }, o = a + "/wc-auth/v1/authorize?" + querystring.stringify(s).replace(/%20/g, "+");
-    t.header("Access-Control-Allow-Origin", a), t.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE"), 
+        callback_url: a + "/authenticate_wc_callback"
+    }, o = n + "/wc-auth/v1/authorize?" + querystring.stringify(s).replace(/%20/g, "+");
+    t.header("Access-Control-Allow-Origin", n), t.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE"), 
     t.header("Access-Control-Allow-Headers", "X-Requested-With"), t.header("Access-Control-Allow-Credentials", !0), 
     t.status(305).redirect(o);
 }), app.post("/authenticate_wc_callback", (e, t) => {
-    let r = e.body, n = {
+    let r = e.body, a = {
         _id: r.user_id,
         "woocommerce.consumer_key": r.consumer_key,
         "woocommerce.consumer_secret": r.consumer_secret
     };
-    DDB.upsertClientRecord(n).then(e => {
+    DDB.upsertClientRecord(a).then(e => {
         t.header("Access-Control-Allow-Origin", "*"), t.header("Access-Control-Allow-Headers", "X-Requested-With"), 
         t.status(200).end();
     }).catch(e => {
         logger.error(e.stack || e), t.status(500).end();
     });
 }), app.put("/update_wc_order", (e, t) => {
-    let r = e.body.orderId, n = new CLIENT.Client();
-    n.loadClientRecordByRecipientId(e.body.recipientId).then(() => WOOCOMMERCE.wcUpdateOrder(n, r, e.body.updateProps)).then(e => {
+    let r = e.body.orderId, a = new CLIENT.Client();
+    a.loadClientRecordByRecipientId(e.body.recipientId).then(() => WOOCOMMERCE.wcUpdateOrder(a, r, e.body.updateProps)).then(e => {
         e.id, t.setHeader("Content-Type", "application/json"), t.status(200).send({
             orderId: e.id
         });
@@ -277,8 +279,8 @@ app.post("/paypal-notify", (e, t) => {
         logger.error(e.stack || e), t.status(404).send(e.body);
     });
 }), app.delete("/remove_wc_order", (e, t) => {
-    let r = e.body.uid, n = e.body.rid, a = e.body.oid, s = new CLIENT.Client();
-    s.loadClientRecordByRecipientId(n).then(() => WOOCOMMERCE.wcRemoveOrder(s, a)).then(e => DDB.removeAnOrderPool(r, n, a)).then(e => {
+    let r = e.body.uid, a = e.body.rid, n = e.body.oid, s = new CLIENT.Client();
+    s.loadClientRecordByRecipientId(a).then(() => WOOCOMMERCE.wcRemoveOrder(s, n)).then(e => DDB.removeAnOrderPool(r, a, n)).then(e => {
         t.setHeader("Content-Type", "application/json"), t.status(200).send({
             status: "ok"
         });
@@ -336,15 +338,15 @@ app.post("/paypal-notify", (e, t) => {
         logger.error(e.stack || e), t.send("err!");
     });
 }), app.get("/test_wc_products/:itemPerPage/:pageNo", (e, t) => {
-    let r = e.params.itemPerPage, n = e.params.pageNo, a = new CLIENT.Client();
-    a.loadClientRecord("simonho288").then(() => WOOCOMMERCE.wcGetProductsList(a, r, n)).then(e => {
+    let r = e.params.itemPerPage, a = e.params.pageNo, n = new CLIENT.Client();
+    n.loadClientRecord("simonho288").then(() => WOOCOMMERCE.wcGetProductsList(n, r, a)).then(e => {
         t.send(e);
     }).catch(e => {
         logger.error(e.stack || e), t.send(404, "err!");
     });
 }), app.get("/test_wc_categories/:itemPerPage/:pageNo", (e, t) => {
-    let r = e.params.itemPerPage, n = e.params.pageNo, a = new CLIENT.Client();
-    a.loadClientRecord("simonho288").then(() => WOOCOMMERCE.wcGetProductCategoriesList(a, r, n)).then(e => {
+    let r = e.params.itemPerPage, a = e.params.pageNo, n = new CLIENT.Client();
+    n.loadClientRecord("simonho288").then(() => WOOCOMMERCE.wcGetProductCategoriesList(n, r, a)).then(e => {
         t.send(e);
     }).catch(e => {
         logger.error(e.stack || e), t.send(404, "err!");
