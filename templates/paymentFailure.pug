@@ -2,16 +2,16 @@
 //- See makeWebPage.js checkout() for the logic.
 doctype html
 html(lang="en")
-	head
-		include head.pug
-	body
-		h1.ui.center.aligned.header Payment Cancelled
-		.ui.container
-			.ui.negative.message
-				.header Payment Id: #{paymentId}
-				p Payment gateway return failure signal
-			button.ui.primary.button#btn_close Close this Browser
-	script.
-		$('#btn_close').on('click', function(evt) {
-			window.open('', '_self').close()
-		})
+  head
+    include head.pug
+  body
+    h1.ui.center.aligned.header Payment Cancelled
+    .ui.container
+      .ui.negative.message
+        .header Payment Id: #{paymentId}
+        p Payment gateway return failure signal
+      button.ui.primary.button#btn_close Close this Browser
+  script.
+    $('#btn_close').on('click', function(evt) {
+      window.open('', '_self').close()
+    })

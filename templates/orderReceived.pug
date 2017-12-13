@@ -2,69 +2,69 @@
 //- See makeWebPage.js checkout() for the logic.
 doctype html
 html(lang="en")
-	head
-		include head.pug
-	body
-		script.
-			window._paymentId="#{paymentId}"
+  head
+    include head.pug
+  body
+    script.
+      window._paymentId="#{paymentId}"
 
-		.ui.main.container
-			h3 Order Received
-			h4 Thank You for your purchase
+    .ui.main.container
+      h3 Order Received
+      h4 Thank You for your purchase
 
-		.ui.segment.loading_wrapper(style="min-height: 500px;")
-			.ui.active.inverted.dimmer
-				.ui.text.loader Loading
-			p 
-		.loaded_wrapper(style="display: none")
-			.ui.main.container
-				.ui.celled.big.list
-					.item
-						.content
-							.header Order Number
-							.span#order_no
-					.item
-						.content
-							.header Date
-							.span#order_date
-					.item
-						.content
-							.header Total
-							.span#order_total
-					.item
-						.content
-							.header Payment Method
-							.span#payment_method
+    .ui.segment.loading_wrapper(style="min-height: 500px;")
+      .ui.active.inverted.dimmer
+        .ui.text.loader Loading
+      p 
+    .loaded_wrapper(style="display: none")
+      .ui.main.container
+        .ui.celled.big.list
+          .item
+            .content
+              .header Order Number
+              .span#order_no
+          .item
+            .content
+              .header Date
+              .span#order_date
+          .item
+            .content
+              .header Total
+              .span#order_total
+          .item
+            .content
+              .header Payment Method
+              .span#payment_method
 
-			.ui.main.container
-				.ui.celled.big.list
-					.item
-						.content
-							.header Subtotal
-							.span#order_subtotal
-					.item
-						.content
-							.header Shipping
-							.span#order_shipping
-					.item
-						.content
-							.header Tax
-							.span#order_tax
-					.item
-						.content
-							.header Payment ID
-							.span#payment_id
-					.item
-						.content
-							.header Total
-							.span#order_total2
+      .ui.main.container
+        .ui.celled.big.list
+          .item
+            .content
+              .header Subtotal
+              .span#order_subtotal
+          .item
+            .content
+              .header Shipping
+              .span#order_shipping
+          .item
+            .content
+              .header Tax
+              .span#order_tax
+          .item
+            .content
+              .header Payment ID
+              .span#payment_id
+          .item
+            .content
+              .header Total
+              .span#order_total2
 
-				p Now you can close the browser or <a href="" id="btn_close">click here to close</a>
+        p Now you can close the browser or <a href="" id="btn_close">click here to close</a>
 
-	script.
-		$('#btn_close').on('click', function(evt) {
-			window.open('', '_self').close()
-		})
+  script.
+    $('#btn_close').on('click', function(evt) {
+      window.open('', '_self').close()
+    })
 
-	script(src="js/util.js")
-	script(src="js/orderReceived.js")
+  script(src="js/util.js")
+  script(src="js/orderReceived.js")

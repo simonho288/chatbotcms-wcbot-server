@@ -2,92 +2,92 @@
 //- See makeWebPage.js checkout() for the logic.
 doctype html
 html(lang="en")
-	head
-		include head.pug
-	body
-		//- Don't remove below line
-		script.
-			//- Pass the cart items from server template to frontend
-			window._userId="#{userId}"
-			window._recipientId="#{recipientId}"
-			window._orderId="#{orderId}"
+  head
+    include head.pug
+  body
+    //- Don't remove below line
+    script.
+      //- Pass the cart items from server template to frontend
+      window._userId="#{userId}"
+      window._recipientId="#{recipientId}"
+      window._orderId="#{orderId}"
 
-		.ui.main.container
-			h3 Order Review
+    .ui.main.container
+      h3 Order Review
 
-		.ui.main.container
-			.ui.four.top.attached.ordered.steps
-				.completed.step
-					.content
-						.title Info Input
-						.description Order info
-				.completed.step
-					.content
-						.title Shipping
-						.description Shipping option
-				.active.step
-					i.list.layout.icon
-					.content
-						.title Review
-						.description Confirm order
-				.step
-					i.payment.icon
-					.content
-						.title Payment
-						.description Select payment
+    .ui.main.container
+      .ui.four.top.attached.ordered.steps
+        .completed.step
+          .content
+            .title Info Input
+            .description Order info
+        .completed.step
+          .content
+            .title Shipping
+            .description Shipping option
+        .active.step
+          i.list.layout.icon
+          .content
+            .title Review
+            .description Confirm order
+        .step
+          i.payment.icon
+          .content
+            .title Payment
+            .description Select payment
 
-		.ui.main.container
-			.ui.segment.loading_wrapper(style="min-height: 500px;")
-				.ui.active.inverted.dimmer
-					.ui.text.loader Loading
-				p 
-			.loaded_wrapper(style="display: none")
-				.ui.main.container
-					table.ui.unstackable.table#table_items
-						thead
-							tr
-								th 
-								th Item
-								th(style="text-align: right") Qty
-								th(style="text-align: right") Price
-								th(style="text-align: right") Tax
-								th(style="text-align: right") Sub-total
-						tbody
-							tr
+    .ui.main.container
+      .ui.segment.loading_wrapper(style="min-height: 500px;")
+        .ui.active.inverted.dimmer
+          .ui.text.loader Loading
+        p 
+      .loaded_wrapper(style="display: none")
+        .ui.main.container
+          table.ui.unstackable.table#table_items
+            thead
+              tr
+                th 
+                th Item
+                th(style="text-align: right") Qty
+                th(style="text-align: right") Price
+                th(style="text-align: right") Tax
+                th(style="text-align: right") Sub-total
+            tbody
+              tr
 
-				.ui.main.container
-					table.ui.definition.table
-						tbody
-							tr
-								td.four.wide.column Order total
-								td#order_total
-							tr
-								td Order tax
-								td#order_tax
-							tr
-								td Shipping total
-								td#ship_total
-							tr
-								td Shipping tax
-								td#ship_tax
-					h3 Total Amount: <span id="total_amount"></span>
+        .ui.main.container
+          table.ui.definition.table
+            tbody
+              tr
+                td.four.wide.column Order total
+                td#order_total
+              tr
+                td Order tax
+                td#order_tax
+              tr
+                td Shipping total
+                td#ship_total
+              tr
+                td Shipping tax
+                td#ship_tax
+          h3 Total Amount: <span id="total_amount"></span>
 
-				.ui.main.container
-					button.ui.primary.button#btn_proceed Proceed To Payment
-					button.ui.button#btn_back Cancel This Order
+        .ui.main.container
+          button.ui.primary.button#btn_proceed Proceed To Payment
+          button.ui.button#btn_back Cancel This Order
 
-				.footer
+        .footer
 
-				//- Remove order warning modal dialog
-				.ui.modal#dlg_discardwarn
-					i.close.icon
-					.header <i class="warning sign icon"></i>Warning
-					.image.content
-						.description Are you sure to cancel this order?
-					.actions
-						.ui.negative.basic.button#btn_ok Yes
-						.ui.button#btn_cancel No
+        //- Remove order warning modal dialog
+        .ui.modal#dlg_discardwarn
+          i.close.icon
+          .header <i class="warning sign icon"></i>Warning
+          .image.content
+            .description Are you sure to cancel this order?
+          .actions
+            .ui.negative.basic.button#btn_ok Yes
+            .ui.button#btn_cancel No
 
-	script(src="js/util.js")
-	script(src="js/orderReview.js")
+  script(src="js/util.js")
+  script(src="js/orderReview.js")
 
