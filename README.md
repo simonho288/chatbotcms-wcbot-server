@@ -1,4 +1,6 @@
-# WcBot | Chatbot CMS WooCommerce Server App
+WcBot | Chatbot CMS WooCommerce Server App
+
+# Deprecated: This is the old version of WcBot server. Please click here to go to [recent version 2.0](https://github.com/simonho288/chatbotcms-wcbot-server-2)
 
 ## 1. Overview
 
